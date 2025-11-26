@@ -40,7 +40,7 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
     currentIndex,
     goToNextSlide,
     onTextScroll,
-  } = useOnboarding({slides:SLIDES, cardWidth: windowWithoutPaddingWidth, finishHandler});
+  } = useOnboarding({slides:SLIDES, finishHandler});
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
