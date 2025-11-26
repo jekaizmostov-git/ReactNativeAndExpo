@@ -1,0 +1,1 @@
+export {HightLightText} from './HighlightedText';
