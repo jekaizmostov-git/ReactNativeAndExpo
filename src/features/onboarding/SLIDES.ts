@@ -6,7 +6,7 @@ export const SLIDES: Slide[] = [
     title: 'Преобразите свой интерьер',
     highlight: "Преобразите",
     description: 'Тут был короткий walkthrought (пример демо комнаты до/после)',
-    image: require('@/shared/assets/onboarding/2.png'), 
+    image: require('@/shared/assets/onboarding/1.png'), 
   },
   {
     id: '2', 
@@ -20,6 +20,6 @@ export const SLIDES: Slide[] = [
     title: 'Откройте все возможности',
     highlight: "возможности",
     description: 'Настраивайте интерьер и освещение, используя мебель из каталогов',
-    image: require('@/shared/assets/onboarding/2.png'), 
+    image: require('@/shared/assets/onboarding/3.png'), 
   },
 ];

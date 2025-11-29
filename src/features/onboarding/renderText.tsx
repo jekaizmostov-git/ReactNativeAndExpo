@@ -4,24 +4,51 @@ import { AppText } from "@/shared/ui/Text";
 import { makeStyles } from "@/shared/lib/theme/makeStyles";
 import { useStyles } from "@/shared/lib/theme/useStyles";
 
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+  interpolate,
+} from "react-native-reanimated";
+
+
 type renderTextProps = {
-  id: string;
+  index: number;
   width: number;
   title: string;
   highlight: string;
   description: string;
+  scrollX: SharedValue<number>;
 }
 
 export function RenderText({
-  id, 
+  index, 
   width,
   title, 
   highlight, 
   description, 
+  scrollX,
 } : renderTextProps){
   const styles = useStyles(s);
+  const animatedStyles = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollX.value,
+      [(index - 1) * width, index * width, (index + 1) * width],
+      [0, 1, 0]
+    );
+    const translateY = interpolate(
+      scrollX.value,
+      [(index - 1) * width, index * width, (index + 1) * width],
+      [100, 0, 100],
+      //Extrapolate.CLAMP
+    );
+    return {
+      opacity,
+      transform: [{ translateY }],
+    }
+   })
+
   return (
-    <View style={[styles.container, {width: width}]}>
+    <Animated.View style={[styles.container, {width: width}, animatedStyles]}>
       <HightLightText 
         title={title} 
         highlight={highlight} 
@@ -30,14 +57,13 @@ export function RenderText({
         style={styles.title}
       />
       <AppText style={styles.description} >{description}</AppText>
-    </View>
+    </Animated.View>
   )
 }
 
 const s = makeStyles((theme) => ({
   container:{
     gap: 10,
-    //backgroundColor: 'green',
   },
   title:{
     textAlign: 'center',

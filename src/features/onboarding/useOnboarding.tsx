@@ -3,9 +3,12 @@ import { FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
 import { Slide } from './types';
 
+import { SharedValue } from 'react-native-reanimated';
+
 interface UseOnboardingProps {
   slides: Slide[];
   finishHandler: () => void;
+  scrollX: SharedValue<number>;
 }
 
 interface UseOnboardingReturn {
@@ -19,6 +22,7 @@ interface UseOnboardingReturn {
 export const useOnboarding = ({
   slides,
   finishHandler,
+  scrollX,
 }: UseOnboardingProps): UseOnboardingReturn => {
 
   const imageFlatListRef = useRef<FlatList>(null);
@@ -57,6 +61,7 @@ const goToNextSlide = () => {
 // Текст управляет синхронизацией
 const onTextScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
   const contentOffset = event.nativeEvent.contentOffset.x;
+  scrollX.value = contentOffset;
   
   // Синхронизируем изображения
   imageFlatListRef.current?.scrollToOffset({

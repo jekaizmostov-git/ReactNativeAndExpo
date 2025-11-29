@@ -16,6 +16,11 @@ import { useStyles } from "@/shared/lib/theme/useStyles";
 import { SLIDES } from "./SLIDES";
 import { useOnboarding } from "./useOnboarding";
 
+import Animated, {
+  useSharedValue
+} from 'react-native-reanimated';
+import { RenderImage } from "./RenderImage";
+
 const { width } = Dimensions.get('window');
 
 
@@ -25,6 +30,8 @@ type OnBoardingProps = {
 
 export function OnBoarding({finishHandler} : OnBoardingProps){
   const styles = useStyles(s);
+
+  const scrollX = useSharedValue<number>(0);
   
   const windowWithoutPaddingWidth = width - styles.container.paddingHorizontal * 2;
 
@@ -40,11 +47,11 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
     currentIndex,
     goToNextSlide,
     onTextScroll,
-  } = useOnboarding({slides:SLIDES, finishHandler});
+  } = useOnboarding({slides:SLIDES, finishHandler, scrollX});
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <FlatList
+        <Animated.FlatList
             style={styles.flatList}
             ref={imageFlatListRef}
             data={SLIDES}
@@ -57,31 +64,18 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
             snapToInterval={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
             snapToAlignment="center"
             getItemLayout={getTextItemLayout}
-          renderItem={({item}) => {
-            return (
-              <View style={{ 
-                width: windowWithoutPaddingWidth - baseTheme.spacing.md*2, 
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                }}>
-                  <Image 
-                    source={item.image} 
-                    style={[
-                      styles.image, 
-                      { 
-                        width: '90%',   
-                        height: '90%', 
-                      }
-                  ]}
-              />
-            </View>
-          )
-        }}   
+            renderItem={({ item, index }) => (
+            <RenderImage 
+              index={index}
+              source={item.image}
+              width={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
+              scrollX={scrollX}
+            />
+          )}  
         />
       </View>
       <Card>
-        <FlatList
+        <Animated.FlatList
           ref={textFlatListRef}
           data={SLIDES}
           keyExtractor={(item) => item.id}
@@ -94,13 +88,14 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
           snapToInterval={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
           snapToAlignment="center"
           getItemLayout={getTextItemLayout}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <RenderText 
-              id={item.id}
+              index={index}
               title={item.title}
               description={item.description}
               highlight={item.highlight}
               width={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
+              scrollX={scrollX}
             />
           )}
         />
@@ -136,9 +131,6 @@ const s = makeStyles((theme) => ({
   imageContainer: {
     flex: 1,
     marginBottom: 16,
-  },
-  image: {
-    resizeMode: 'contain',
   },
   dotContainer: {
     flexDirection: 'row',
