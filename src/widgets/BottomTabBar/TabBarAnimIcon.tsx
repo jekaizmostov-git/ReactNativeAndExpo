@@ -23,7 +23,7 @@ export function TabBarAnimIcon({
 }: WorkingColorAnimatedTabIconProps) {
 
   const { theme } = useTheme();
-
+  
   const animatedProps = useAnimatedProps(() => {
     return {
      color: focused ? theme.colors.primary : theme.colors.notActive,

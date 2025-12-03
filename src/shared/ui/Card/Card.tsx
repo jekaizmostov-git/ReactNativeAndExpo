@@ -42,11 +42,12 @@ const s = makeStyles((theme) => ({
   card: {
     padding: theme.spacing.md,
     borderRadius: theme.radius.lg,
-    backgroundColor: theme.colors.bg,
-    shadowColor: '#000',
+    backgroundColor: theme.name === 'dark'?'#1E293B' : '#FFFFFF',
+    shadowColor: theme.name === 'dark' ? '#000' : '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: theme.name === 'dark' ? 0.25 : 0.1,
+    shadowRadius: theme.name === 'dark' ? 10 : 4,
+    elevation: theme.name === 'dark' ? 5 : 3,
+    borderWidth: theme.name === 'dark' ? 1 : 0,
   },
 }));

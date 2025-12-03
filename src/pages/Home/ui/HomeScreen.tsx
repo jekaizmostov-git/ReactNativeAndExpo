@@ -12,10 +12,16 @@ import { useTheme } from '@/shared/lib/theme/useTheme';
 
 type Props = NativeStackScreenProps<TabParamList, 'Home'>;
 
-export const HomeScreen = ({ navigation }: Props) => {
+export const HomeScreen = ({ route, navigation }: Props) => {
 
   const { toggleTheme, theme } = useTheme();
   const styles = useStyles(s);
+
+  function goToNewProjectPage(){
+    const parentNavigation = navigation.getParent();
+    if (parentNavigation) parentNavigation.navigate('NewProject');
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.themeButtonContainer}>
@@ -34,13 +40,13 @@ export const HomeScreen = ({ navigation }: Props) => {
       
       <View style={styles.card}>
         <HightLightText
-          size='subtitle' 
+          size='title' 
           weight='bold'
           title="Создадим интерьр в стиле джапанди?"
           highlight='джапанди?'
         />
         <AppText>Готовый дизай за пару минут</AppText>
-        <Button title='Начать' onPress={()=>{console.log('Start button clicked')}}/>
+        <Button title='Начать' onPress={goToNewProjectPage} />
       </View>
     </View>
   );
@@ -62,15 +68,18 @@ const s = makeStyles((theme) => ({
     paddingTop: theme.spacing.md,
     paddingBottom: theme.spacing.xl,
     paddingHorizontal: theme.spacing.lg,
-    backgroundColor: theme.colors.bg,
+    //backgroundColor: theme.colors.bg,
     borderTopRightRadius: theme.radius.lg,
     borderTopLeftRadius: theme.radius.lg,
     gap: theme.spacing.md,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
+
+    backgroundColor: theme.name === 'dark'?'#1E293B' : '#FFFFFF',
+    shadowColor: theme.name === 'dark' ? '#000' : '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: theme.name === 'dark' ? 0.25 : 0.1,
+    shadowRadius: theme.name === 'dark' ? 10 : 4,
+    elevation: theme.name === 'dark' ? 5 : 3,
+    borderWidth: theme.name === 'dark' ? 1 : 0,
   },
   imageContainer: {
     flex: 1,
