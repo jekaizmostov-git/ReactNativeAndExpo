@@ -1,16 +1,3 @@
-
-
-// type MakeStyleProps<T> = (theme: Theme) => StyleSheet.NamedStyles<T>;
-
-
-
-// export const makeStyles = <T>(styles: MakeStyleProps<T>) => (): StyleSheet.NamedStyles<T> => {
-//   const {theme} = useTheme();
-//   const css = styles(theme);
-//   return StyleSheet.create(css);
-  
-// };
-
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
 
 type NamedStyles<T> = {

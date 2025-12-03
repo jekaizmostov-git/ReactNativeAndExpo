@@ -1,5 +1,4 @@
 import { HightLightText } from "@/shared/ui/HightLightText";
-import { View } from "react-native";
 import { AppText } from "@/shared/ui/Text";
 import { makeStyles } from "@/shared/lib/theme/makeStyles";
 import { useStyles } from "@/shared/lib/theme/useStyles";

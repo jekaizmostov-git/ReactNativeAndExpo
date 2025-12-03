@@ -1,7 +1,5 @@
 import { Card } from "@/shared/ui/Card";
 import { 
-  Image,
-  FlatList, 
   View,
   Dimensions} from "react-native";
 import { Button } from "@/shared/ui/Button";

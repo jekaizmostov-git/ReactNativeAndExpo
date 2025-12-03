@@ -1,19 +1,22 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '@/pages/Home';
-import { ProfileScreen } from '@/pages/Profile';
+import { PreAuthPage } from '@/pages/PreAuthPage';
+import { TabNavigator } from './TabNavigator';
 
 export type RootStackParamList = {
-  Home: undefined;
-  Profile: { userId?: string };
+  MainTabs: undefined;
+  PreAuth: undefined;
 };
   
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+    <Stack.Navigator
+      initialRouteName='PreAuth'
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="MainTabs" component={TabNavigator} />
+      <Stack.Screen name="PreAuth" component={PreAuthPage} />
     </Stack.Navigator>
   );
 };
