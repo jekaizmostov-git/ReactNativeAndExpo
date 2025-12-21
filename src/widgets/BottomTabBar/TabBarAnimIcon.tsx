@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Animated, { 
-  useAnimatedProps,
-  withTiming, 
+  withTiming,
+  useAnimatedStyle,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/shared/lib/theme/useTheme';
@@ -21,25 +21,22 @@ export function TabBarAnimIcon({
   focused, 
   size = 24, 
 }: WorkingColorAnimatedTabIconProps) {
-
   const { theme } = useTheme();
-  
-  const animatedProps = useAnimatedProps(() => {
-    return {
-     color: focused ? theme.colors.primary : theme.colors.notActive,
-     //color: focused?'brown':'pink',
-      transform: [{
-        scale: withTiming(focused ? 1.05 : 1, { duration: 200 })
-      }],
-    };
-  });
+
+   const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{
+      scale: withTiming(focused ? 1.05 : 1, { duration: 200 })
+    }]
+  }));
 
   return (
-    <AnimatedIonicons 
-      name={name as any} 
-      size={size} 
-      animatedProps={animatedProps}
-    />
+    <Animated.View style={animatedStyle}>
+        <AnimatedIonicons 
+          name={name as any} 
+          size={size} 
+          color={focused ? theme.colors.primary : theme.colors.notActive}
+        />
+    </Animated.View>
   );
 }
 

@@ -45,10 +45,13 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
     currentIndex,
     goToNextSlide,
     onTextScroll,
+    handleMomentumScrollEnd,
   } = useOnboarding({slides:SLIDES, finishHandler, scrollX});
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
+      <View 
+        style={styles.imageContainer} 
+      >
         <Animated.FlatList
             style={styles.flatList}
             ref={imageFlatListRef}
@@ -58,10 +61,13 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             scrollEnabled={false} // нельзя скроллить
+            //onScroll={(e) => handleScroll(e, imageFlatListRef, textFlatListRef)}
+            //onScroll={onImageScroll}
             decelerationRate="fast"
             snapToInterval={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
             snapToAlignment="center"
             getItemLayout={getTextItemLayout}
+            onMomentumScrollEnd={handleMomentumScrollEnd}
             renderItem={({ item, index }) => (
             <RenderImage 
               index={index}
@@ -83,6 +89,7 @@ export function OnBoarding({finishHandler} : OnBoardingProps){
           onScroll={onTextScroll} // можно скроллить
           scrollEventThrottle={8} // стандартная частота
           decelerationRate="fast"
+          onMomentumScrollEnd={handleMomentumScrollEnd}
           snapToInterval={windowWithoutPaddingWidth - baseTheme.spacing.md*2}
           snapToAlignment="center"
           getItemLayout={getTextItemLayout}

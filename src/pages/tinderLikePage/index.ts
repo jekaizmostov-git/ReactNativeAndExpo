@@ -1,0 +1,1 @@
+export { TinderLikePage} from './ui/TinderLikePage';

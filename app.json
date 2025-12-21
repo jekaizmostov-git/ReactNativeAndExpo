@@ -27,7 +27,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "jsEngine": "hermes", 
-    "development": true
+    "jsEngine": "hermes",
+    "development": true,
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }

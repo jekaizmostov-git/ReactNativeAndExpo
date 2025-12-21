@@ -14,11 +14,12 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 type Props = {
   title: string;
   onPress: () => void;
+  disabled?: boolean;
 };
 
-export function Button({title, onPress}:Props){
+export function Button({title, onPress, disabled=false}:Props){
   const styles = useStyles(s);
- const scale = useSharedValue(1);
+  const scale = useSharedValue(1);
 
   const handlePressIn = () => {
     scale.value = withSpring(0.95, { damping: 100, stiffness: 300 });
@@ -35,9 +36,14 @@ export function Button({title, onPress}:Props){
 
   return (
     <AnimatedPressable 
-      style={[styles.button, animatedStyle]} 
+      style={[
+        styles.button, 
+        animatedStyle, 
+        disabled && styles.disabledButton
+      ]} 
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      disabled={disabled}
     >
       <AppText style={styles.title}>{title}</AppText>
     </AnimatedPressable>
@@ -56,6 +62,9 @@ const s = makeStyles((theme) => ({
     color: theme.colors.buttonText,
     fontWeight: 'normal',
   },
+  disabledButton: {
+    backgroundColor: '#ccc',
+  }
 }))
 
 

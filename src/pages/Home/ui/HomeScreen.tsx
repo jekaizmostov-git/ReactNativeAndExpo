@@ -3,6 +3,7 @@ import { TabParamList } from '@/app/navigation/TabNavigator';
 
 import { View, Image } from 'react-native';
 import { Button } from '@/shared/ui/Button';
+import { BottomCard } from '@/shared/ui/BottomCard'
 import { HightLightText } from '@/shared/ui/HightLightText';
 import { AppText } from '@/shared/ui/Text';
 
@@ -37,8 +38,7 @@ export const HomeScreen = ({ route, navigation }: Props) => {
           resizeMode="contain"
         /> 
       </View>
-      
-      <View style={styles.card}>
+      <BottomCard>
         <HightLightText
           size='title' 
           weight='bold'
@@ -47,7 +47,7 @@ export const HomeScreen = ({ route, navigation }: Props) => {
         />
         <AppText>Готовый дизай за пару минут</AppText>
         <Button title='Начать' onPress={goToNewProjectPage} />
-      </View>
+      </BottomCard>
     </View>
   );
 };
@@ -63,23 +63,6 @@ const s = makeStyles((theme) => ({
     top: 50, // или useSafeAreaInsets().top + 10
     right: 20,
     zIndex: 10,
-  },
-  card: {
-    paddingTop: theme.spacing.md,
-    paddingBottom: theme.spacing.xl,
-    paddingHorizontal: theme.spacing.lg,
-    //backgroundColor: theme.colors.bg,
-    borderTopRightRadius: theme.radius.lg,
-    borderTopLeftRadius: theme.radius.lg,
-    gap: theme.spacing.md,
-
-    backgroundColor: theme.name === 'dark'?'#1E293B' : '#FFFFFF',
-    shadowColor: theme.name === 'dark' ? '#000' : '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: theme.name === 'dark' ? 0.25 : 0.1,
-    shadowRadius: theme.name === 'dark' ? 10 : 4,
-    elevation: theme.name === 'dark' ? 5 : 3,
-    borderWidth: theme.name === 'dark' ? 1 : 0,
   },
   imageContainer: {
     flex: 1,

@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { tabConfig } from '@/widgets/BottomTabBar/tabConfig';
 import { HomeScreen } from '@/pages/Home';
+import  Test  from './Test';
 
 import { Text, View } from 'react-native';
 
@@ -34,14 +35,14 @@ export function TabNavigator() {
         name="Projects" 
         component={Projects}
         options={{
-          tabBarLabel:  tabConfig.Profile.label, 
+          tabBarLabel:  tabConfig.Projects.label, 
         }}
       />
       <Tab.Screen 
         name="Profile" 
         component={Profile} 
         options={{
-          tabBarLabel:  tabConfig.Projects.label, 
+          tabBarLabel:  tabConfig.Profile.label, 
         }}
       />
     </Tab.Navigator>

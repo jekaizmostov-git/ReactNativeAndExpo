@@ -32,8 +32,8 @@ export const baseTheme = {
 
   typography: {
     title: 34,
-    subtitle: 22,
-    body: 24,
+    subtitle: 24,
+    body: 20,
   },
 } as const;
 
