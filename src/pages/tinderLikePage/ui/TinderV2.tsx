@@ -36,12 +36,14 @@ export function TinderV2({navigation, route}:Props){
 
   const handleSwipeAction = (action: 'like'|'dislike') => {
     if (action === 'like'){
-      console.log('like_Action')
+      //console.log('like_Action')
      //likedId.current.push(slidesRef.current[currentIndex].id); // для того чтобы дальше передать в контекст, что нравится пользователю
     } else {
-      console.log('dislike_action');
+      //console.log('dislike_action');
     }
-   setCurrentIndex(prev => prev + 1);
+    setCurrentIndex(prev => {
+      return prev + 1;
+    });
   };
 
   //на данном этапе не скелится только главная карточка, у которой zIndex больше. все остальные скелятся. То есть пользователь тянет верхнюю карточку, с индексом 0, а скелятся все 1-до конца массива
@@ -52,6 +54,15 @@ export function TinderV2({navigation, route}:Props){
     enemyScale.value = 0.95;
   })
 
+
+  useFocusEffect(() => {
+    if (slidesRef.current.length - currentIndex === 3 ){
+      console.log('Дозагрузка');
+      loadMore();
+    }
+  })
+
+  console.log(slidesRef.current.length);
   return (
     <View style={styles.screen}>
     <SafeAreaView style={styles.container}>
@@ -69,12 +80,18 @@ export function TinderV2({navigation, route}:Props){
       </TouchableOpacity>
       <View style={styles.tinderContainder}>
         {
+          
           slidesRef.current.length != 0 && slidesRef.current
-          .slice(currentIndex % 7, slidesRef.current.length)
+          //не понимаю зачем отображать до конда массива если каждый раз мап заново отрисовывается. пробую 3 элемента
+          //тут мне нужно объяснение почему весь доступный массив рендерим
+          .slice(currentIndex, slidesRef.current.length)
+          //.slice(currentIndex, currentIndex+3)
             .map((slide, index) => {
-              const absoluteIndex = (currentIndex % 7 + index);
-              const isActive = index === 0;
+              const absoluteIndex = currentIndex + index;
               const zIndex = absoluteIndex * -1;
+              const isActive = index === 0;
+              //тут крутил до размера  slidesRef.current.length = 100 ничего не вылетает, все норм
+              console.log(`${slide.title} - zIndex = ${zIndex}`);
               return (
                 <TinderCard 
                   key={`card-${slide.id}-${absoluteIndex}`}
