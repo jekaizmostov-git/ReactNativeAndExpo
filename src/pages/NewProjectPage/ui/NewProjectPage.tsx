@@ -9,9 +9,10 @@ import { Card } from '@/shared/ui/Card';
 import { useTheme } from '@/shared/lib/theme/useTheme';
 import { Button } from '@/shared/ui/Button'
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect } from 'react';
 import { Slides } from '@/features/tinderLike/slides';
 import { preloadImage } from '@/shared/lib/preloadImage/preloadImage';
+import { useSlides } from '@/features/tinderLike/useSlides';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 type Props = NativeStackScreenProps<RootStackParamList, "NewProject">;
@@ -22,10 +23,29 @@ export function NewProjectPage ({navigation}:Props) {
   const styles = useStyles(s);
   const {theme, toggleTheme} = useTheme();
   
-  preloadImage(TINDER_IMAGES);
+  //Этот кусок кода загружает первую пачку слайдов до перехода на экран с тиндером!
+  //и передает их через route.params
+  const { loadFirstSlides, slidesRef } = useSlides();
+
+  const preloadTinderCards = async () => {
+    await loadFirstSlides();
+    preloadImage(TINDER_IMAGES);
+    console.log('Слайды с карточками загружены и готовы к переходу на след экран!');
+  }
+
+  useFocusEffect(() => {
+    if (slidesRef.current.length == 0){
+      preloadTinderCards();
+    }
+  });
 
   function goToTinderLike(){
-    navigation.navigate('TinderLike');
+    try {
+      if (slidesRef.current.length != 0 )
+      navigation.navigate('TinderLike', {firstSlides: slidesRef.current});
+    } catch (error) {
+      console.error('Ошибка при переходе на страницу с тиндером!');
+    }
   }
 
   return (

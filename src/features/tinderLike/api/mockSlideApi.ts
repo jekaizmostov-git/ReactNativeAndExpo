@@ -10,7 +10,7 @@ class MockSlideApi {
 
   async fetchSlides(page: number): Promise<Slide[]> {
     //имитация задержки сети
-    await new Promise(resolve => setTimeout(resolve, 300));
+    //await new Promise(resolve => setTimeout(resolve, 300));
     //работает так, потому что моя БД кратна 7. сначала 0, потом 7, потом 14
     const start = (page - 1) * this.pageSize;
     const end = start + this.pageSize;

@@ -3,9 +3,9 @@ import { Slide } from "./types";
 import { slideApi } from "./api/mockSlideApi";
 import { preloadImage } from "@/shared/lib/preloadImage/preloadImage";
 
-export const useSlides = (firstLoading: boolean) => {
+export const useSlides = () => {
   const slidesRef = useRef<Slide[]>([]);
-  const pageRef = useRef(1);
+  const pageRef = useRef(2);
   const hasMoreRef = useRef(true);
   const loadingRef = useRef(false);
 
@@ -39,7 +39,25 @@ export const useSlides = (firstLoading: boolean) => {
     }
   }, [pageRef, loadingRef, hasMoreRef]);
 
+  const loadFirstSlides = useCallback(async () => {
+    if (loadingRef.current || !hasMoreRef.current) return;
+
+    loadingRef.current = true;
+    try{ 
+        slidesRef.current = [];
+        pageRef.current = 1;
+        const newSlides = await slideApi.fetchSlides(pageRef.current);
+        slidesRef.current = [...slidesRef.current, ...newSlides];
+    } catch (error) {
+      console.error('Error loading slides:', error);
+    } finally {
+      loadingRef.current = false;
+    }
+
+  }, [pageRef, ])
+
   return {
+    loadFirstSlides,
     slidesRef,
     loadMore,
   };

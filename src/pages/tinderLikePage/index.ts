@@ -1,1 +1,1 @@
-export { TinderLikePage} from './ui/TinderLikePage';
+export { TinderV2 } from './ui/TinderV2';

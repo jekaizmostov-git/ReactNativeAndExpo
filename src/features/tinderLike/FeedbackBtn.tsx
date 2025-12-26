@@ -33,7 +33,15 @@ type Props = {
   disabled: boolean;
 }
 
-export function FeedbackBtn ({name, size=32, onPress, myAnimConfig, enemyAnimConfig, disabled}: Props){
+export function FeedbackBtn ({
+    name, 
+    size=32, 
+    onPress, 
+    myAnimConfig, 
+    enemyAnimConfig, 
+    disabled
+  }: Props
+){
 
   const colors = {
     icon: name === 'heart' ? 'green' : 'red',
