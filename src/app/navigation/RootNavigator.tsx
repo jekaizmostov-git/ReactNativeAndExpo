@@ -4,6 +4,8 @@ import { TabNavigator } from './TabNavigator';
 import { NewProjectPage } from '@/pages/NewProjectPage';
 import { TinderV2 } from '@/pages/tinderLikePage';
 import { Slide } from '@/features/tinderLike/types';
+import { TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -22,6 +24,7 @@ export const RootNavigator = () => {
         headerShown: false,
         animation: 'fade',
         animationDuration: 300,
+        headerShadowVisible: false, //убирает линию между хедер и экраном
       }}
       
 
@@ -44,25 +47,26 @@ export const RootNavigator = () => {
       />
       <Stack.Screen name="NewProject" component={NewProjectPage} />
       <Stack.Screen
-        // options={{
-        //   headerShown: true,
-        //   headerLeft: () => {
-        //     return (
-        //       <>
-        //         <TouchableOpacity
-        //         onPress={() => {}}
-        //         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        //       >
-        //         <Ionicons 
-        //           name="close" 
-        //           size={24} 
-        //           color='#ccc'
-        //         />
-        //         </TouchableOpacity> 
-        //       </>
-        //     )            
-        //   }
-        // }}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: '',
+          headerLeft: () => {
+            return (
+              <>
+                <TouchableOpacity
+                  onPress={() => {navigation.goBack()}}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                <Ionicons 
+                  name="close" 
+                  size={24} 
+                  color='#ccc'
+                />
+                </TouchableOpacity> 
+              </>
+            )            
+          }
+        })}
          name="TinderLike" 
          component={TinderV2} 
         />

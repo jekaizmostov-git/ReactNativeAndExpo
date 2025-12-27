@@ -10,6 +10,7 @@ import Animated from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useFeedbackButtonStyle } from "./useFeedbackButtonStyle";
 import { ButtonAnimConfig } from "./FeedbackBtn";
+import { useMemo } from "react";
 
 const AnimatedAppText = Animated.createAnimatedComponent(AppText);
 
@@ -38,25 +39,61 @@ export function TinderCard(
 {
 
   const styles = useStyles(s);
+  
+    // Создаем SharedValue только один раз
+  const likeColorProgress = useSharedValue(0);
+  const likeScale = useSharedValue(1);
+  const likeGlow = useSharedValue(0);
+  const likeOpacity = useSharedValue(1);
+  
+  const dislikeColorProgress = useSharedValue(0);
+  const dislikeScale = useSharedValue(1);
+  const dislikeGlow = useSharedValue(0);
+  const dislikeOpacity = useSharedValue(1);
+  
+    // Оптимизированные конфиги с useMemo
+  const likeAnimConfig = useMemo<ButtonAnimConfig>(() => ({
+    colorProgress: likeColorProgress,
+    scale: likeScale,
+    glow: likeGlow,
+    opacity: likeOpacity,
+  }), []);
 
-  //сделать useMemo
-  const likeAnimConfig : ButtonAnimConfig= {
-    colorProgress: useSharedValue(0),
-    scale: useSharedValue(1),
-    glow: useSharedValue(0),
-    opacity: useSharedValue(1),
-  }
+  const dislikeAnimConfig = useMemo<ButtonAnimConfig>(() => ({
+    colorProgress: dislikeColorProgress,
+    scale: dislikeScale,
+    glow: dislikeGlow,
+    opacity: dislikeOpacity,
+  }), []);
+
+  // //сделать useMemo
+  // const likeAnimConfig : ButtonAnimConfig= {
+  //   colorProgress: useSharedValue(0),
+  //   scale: useSharedValue(1),
+  //   glow: useSharedValue(0),
+  //   opacity: useSharedValue(1),
+  // }
   
-  //сделать useMemo
-  const dislikeAnimConfig : ButtonAnimConfig= {
-    colorProgress: useSharedValue(0),
-    scale: useSharedValue(1),
-    glow: useSharedValue(0),
-    opacity: useSharedValue(1),
-  }
+  // //сделать useMemo
+  // const dislikeAnimConfig : ButtonAnimConfig= {
+  //   colorProgress: useSharedValue(0),
+  //   scale: useSharedValue(1),
+  //   glow: useSharedValue(0),
+  //   opacity: useSharedValue(1),
+  // }
+
+  const likeAnimation = useMemo(
+    () => useFeedbackButtonStyle(likeAnimConfig, dislikeAnimConfig),
+    [likeAnimConfig, dislikeAnimConfig]
+  );
+
+  const dislikeAnimation = useMemo(
+    () => useFeedbackButtonStyle(dislikeAnimConfig, likeAnimConfig),
+    [likeAnimConfig, dislikeAnimConfig]
+  );
   
-  const likeAnimation = useFeedbackButtonStyle(likeAnimConfig, dislikeAnimConfig);
-  const dislikeAnimation = useFeedbackButtonStyle(dislikeAnimConfig, likeAnimConfig);
+  // const likeAnimation = useFeedbackButtonStyle(likeAnimConfig, dislikeAnimConfig);
+  // const dislikeAnimation = useFeedbackButtonStyle(dislikeAnimConfig, likeAnimConfig);
   
   const offsetX = useSharedValue(0);
 
@@ -71,8 +108,6 @@ export function TinderCard(
         ],
       }
     });
-
-  
 
     const gesture = Gesture.Pan()
         .onBegin(() => {
@@ -158,8 +193,6 @@ export function TinderCard(
     }
     })();
   };
-
-
 
   return (
     <GestureDetector gesture={gesture}>

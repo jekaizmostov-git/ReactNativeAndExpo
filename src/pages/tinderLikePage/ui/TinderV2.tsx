@@ -66,21 +66,7 @@ export function TinderV2({navigation, route}:Props){
   return (
     <View style={styles.screen}>
     <SafeAreaView style={styles.container}>
-
-      {/* эту шляпу потом закину в навигатор в хедер */}
-      <TouchableOpacity
-        onPress={() => {navigation.goBack()}}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-      >
-        <Ionicons 
-            name="close" 
-            size={24} 
-            color='#ccc'
-        />
-      </TouchableOpacity>
-      <View style={styles.tinderContainder}>
         {
-          
           slidesRef.current.length != 0 && slidesRef.current
           //не понимаю зачем отображать до конда массива если каждый раз мап заново отрисовывается. пробую 3 элемента
           //тут мне нужно объяснение почему весь доступный массив рендерим
@@ -107,7 +93,6 @@ export function TinderV2({navigation, route}:Props){
               )
             })
         }
-      </View>
     </SafeAreaView>
     <BottomCard style={styles.bottomCard}>
       <Button 
@@ -129,14 +114,10 @@ const s = makeStyles((theme) => ({
     flex: 1,
     marginVertical: theme.spacing.lg,
     marginHorizontal: theme.spacing.lg,
-    gap: theme.spacing.md,
   },
   bottomCard: {
     paddingBottom: 50,
     paddingTop: 30,
-  },
-  tinderContainder: {
-    flex: 1,
   },
   card: {
     ...StyleSheet.absoluteFillObject,
